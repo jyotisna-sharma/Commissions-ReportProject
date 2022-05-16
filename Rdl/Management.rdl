@@ -1,0 +1,528 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2010/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="dsConn">
+      <DataSourceReference>/MAVReport/dsConn</DataSourceReference>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>8addd16a-ff02-4f36-bf21-cebd4f3771d9</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="dsFontAndStyle">
+      <Query>
+        <DataSourceName>dsConn</DataSourceName>
+        <CommandText>SELECT [FooterBGColor1]
+      ,[FooterFontStyle1]
+      ,[FooterFontColor1]
+      ,[FooterFontSize1]
+      ,[FooterBGColor2]
+      ,[FooterFontStyle2]
+      ,[FooterFontColor2]
+      ,[FooterFontSize2]
+      ,[FooterBGColor3]
+      ,[FooterFontStyle3]
+      ,[FooterFontColor3]
+      ,[FooterFontSize3]
+  FROM [ReportsFontAndStyle]
+  WHERE [ReportName]='ALL' and [IsDeleted]=1</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="FooterBGColor1">
+          <DataField>FooterBGColor1</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FooterFontStyle1">
+          <DataField>FooterFontStyle1</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FooterFontColor1">
+          <DataField>FooterFontColor1</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FooterFontSize1">
+          <DataField>FooterFontSize1</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FooterBGColor2">
+          <DataField>FooterBGColor2</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FooterFontStyle2">
+          <DataField>FooterFontStyle2</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FooterFontColor2">
+          <DataField>FooterFontColor2</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FooterFontSize2">
+          <DataField>FooterFontSize2</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FooterBGColor3">
+          <DataField>FooterBGColor3</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FooterFontStyle3">
+          <DataField>FooterFontStyle3</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FooterFontColor3">
+          <DataField>FooterFontColor3</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FooterFontSize3">
+          <DataField>FooterFontSize3</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="dsCompanyInfo">
+      <Query>
+        <DataSourceName>dsConn</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@ReportID">
+            <Value>=Parameters!ReportID.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>SELECT LIC.Company,LIC.Phone  FROM ManagementReports AR
+          INNER JOIN [Licensees] LIC on LIC.LicenseeId = AR.LicenceId
+          WHERE ReportId = @ReportID</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="Company">
+          <DataField>Company</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Phone">
+          <DataField>Phone</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <ReportItems>
+          <Subreport Name="Subreport1">
+            <ReportName>MigrationReport</ReportName>
+            <Parameters>
+              <Parameter Name="RunReport">
+                <Value>=IIF((Parameters!ReportList.Value).IndexOf("MRMR")&gt;-1, 1,0)</Value>
+              </Parameter>
+              <Parameter Name="ReportID">
+                <Value>=Parameters!ReportID.Value</Value>
+              </Parameter>
+            </Parameters>
+            <Top>0.48611in</Top>
+            <Height>0.5in</Height>
+            <Width>10.5in</Width>
+            <Visibility>
+              <Hidden>=IIF((Parameters!ReportList.Value).IndexOf("MRMR")&gt;-1, False,True)</Hidden>
+            </Visibility>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Subreport>
+          <Subreport Name="Subreport3">
+            <ReportName>OpportunityReport</ReportName>
+            <Parameters>
+              <Parameter Name="RunReport">
+                <Value>=IIF((Parameters!ReportList.Value).IndexOf("MROR")&gt;-1, 1,0)</Value>
+              </Parameter>
+              <Parameter Name="ReportID">
+                <Value>=Parameters!ReportID.Value</Value>
+              </Parameter>
+            </Parameters>
+            <Top>0.97222in</Top>
+            <Height>0.5in</Height>
+            <Width>10.5in</Width>
+            <ZIndex>1</ZIndex>
+            <Visibility>
+              <Hidden>=IIF((Parameters!ReportList.Value).IndexOf("MROR")&gt;-1, False,True)</Hidden>
+            </Visibility>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Subreport>
+          <Subreport Name="Subreport2">
+            <ReportName>PolicyList</ReportName>
+            <Parameters>
+              <Parameter Name="RunReport">
+                <Value>=IIF((Parameters!ReportList.Value).IndexOf("MRPL")&gt;-1, 1,0)</Value>
+              </Parameter>
+              <Parameter Name="ReportID">
+                <Value>=Parameters!ReportID.Value</Value>
+              </Parameter>
+            </Parameters>
+            <Left>0.25in</Left>
+            <Height>0.5in</Height>
+            <Width>10.5in</Width>
+            <ZIndex>2</ZIndex>
+            <Visibility>
+              <Hidden>=IIF((Parameters!ReportList.Value).IndexOf("MRPL")&gt;-1, False,True)</Hidden>
+            </Visibility>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Subreport>
+          <Subreport Name="Subreport4">
+            <ReportName>ECReport</ReportName>
+            <Parameters>
+              <Parameter Name="RunReport">
+                <Value>=IIF((Parameters!ReportList.Value).IndexOf("MRECR")&gt;-1, 1,0)</Value>
+              </Parameter>
+              <Parameter Name="ReportID">
+                <Value>=Parameters!ReportID.Value</Value>
+              </Parameter>
+            </Parameters>
+            <Left>0.25in</Left>
+            <Height>0.5in</Height>
+            <Width>10.5in</Width>
+            <ZIndex>3</ZIndex>
+            <Visibility>
+              <Hidden>=IIF((Parameters!ReportList.Value).IndexOf("MRECR")&gt;-1, False,True)</Hidden>
+            </Visibility>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Subreport>
+          <Subreport Name="Subreport5">
+            <ReportName>OutgoingPaymentSchedules</ReportName>
+              <Parameters>
+                <Parameter Name="RunReport">
+                  <Value>=IIF((Parameters!ReportList.Value).IndexOf("MROS")&gt;-1, 1,0)</Value>
+                </Parameter>
+                <Parameter Name="ReportID">
+                  <Value>=Parameters!ReportID.Value</Value>
+                </Parameter>
+              </Parameters>
+            <Height>0.5in</Height>
+            <Width>10.5in</Width>
+            <ZIndex>4</ZIndex>
+            <Visibility>
+              <Hidden>=IIF((Parameters!ReportList.Value).IndexOf("MROS")&gt;-1, False,True)</Hidden>
+            </Visibility>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Subreport>
+          <Subreport Name="ReportSummary">
+            <ReportName>ManagementReportSummary</ReportName>
+            <Parameters>
+              <Parameter Name="ReportID">
+                <Value>=Parameters!ReportID.Value</Value>
+              </Parameter>
+              <Parameter Name="RunReport">
+                <Value>1</Value>
+              </Parameter>
+            </Parameters>
+            <Top>1.47222in</Top>
+            <Left>0.00532in</Left>
+            <Height>0.53125in</Height>
+            <Width>10.49468in</Width>
+            <ZIndex>5</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Subreport>
+        </ReportItems>
+        <Height>2.04514in</Height>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Body>
+      <Width>10.765in</Width>
+      <Page>
+        <PageFooter>
+          <Height>0.85986in</Height>
+          <PrintOnFirstPage>true</PrintOnFirstPage>
+          <PrintOnLastPage>true</PrintOnLastPage>
+          <ReportItems>
+            <Rectangle Name="Rectangle3">
+              <ReportItems>
+                <Textbox Name="Textbox1">
+                  <CanGrow>true</CanGrow>
+                  <KeepTogether>true</KeepTogether>
+                  <Paragraphs>
+                    <Paragraph>
+                      <TextRuns>
+                        <TextRun>
+                          <Value />
+                          <Style>
+                            <FontFamily>Tahoma</FontFamily>
+                            <FontSize>11pt</FontSize>
+                            <FontWeight>Bold</FontWeight>
+                            <Color>=First(Fields!FooterFontColor1.Value, "dsFontAndStyle")</Color>
+                          </Style>
+                        </TextRun>
+                      </TextRuns>
+                      <Style>
+                        <TextAlign>Right</TextAlign>
+                      </Style>
+                    </Paragraph>
+                    <Paragraph>
+                      <TextRuns>
+                        <TextRun>
+                          <Value>="Page "  &amp; Globals.PageNumber &amp; " of " &amp; Globals.TotalPages</Value>
+                          <Style>
+                            <FontFamily>Tahoma</FontFamily>
+                            <FontSize>11pt</FontSize>
+                            <FontWeight>Bold</FontWeight>
+                            <Color>White</Color>
+                          </Style>
+                        </TextRun>
+                      </TextRuns>
+                      <Style>
+                        <TextAlign>Right</TextAlign>
+                      </Style>
+                    </Paragraph>
+                    <Paragraph>
+                      <TextRuns>
+                        <TextRun>
+                          <Label>Printed</Label>
+                          <Value />
+                          <Style>
+                            <FontFamily>Tahoma</FontFamily>
+                            <FontSize>11pt</FontSize>
+                            <FontWeight>Bold</FontWeight>
+                            <Format>MM/dd/yy</Format>
+                            <Color>=First(Fields!FooterFontColor1.Value, "dsFontAndStyle")</Color>
+                          </Style>
+                        </TextRun>
+                      </TextRuns>
+                      <Style>
+                        <TextAlign>Right</TextAlign>
+                      </Style>
+                    </Paragraph>
+                  </Paragraphs>
+                  <rd:DefaultName>Textbox1</rd:DefaultName>
+                  <Left>0.01667in</Left>
+                  <Height>0.58993in</Height>
+                  <Width>1.26389in</Width>
+                  <Style>
+                    <Border>
+                      <Style>None</Style>
+                    </Border>
+                    <VerticalAlign>Middle</VerticalAlign>
+                    <Direction>RTL</Direction>
+                  </Style>
+                </Textbox>
+                <Textbox Name="Textbox16">
+                  <KeepTogether>true</KeepTogether>
+                  <Paragraphs>
+                    <Paragraph>
+                      <TextRuns>
+                        <TextRun>
+                          <Value>CommissionsDept.com</Value>
+                          <Style>
+                            <FontFamily>Tahoma</FontFamily>
+                            <FontSize>16pt</FontSize>
+                            <FontWeight>Bold</FontWeight>
+                            <Color>=First(Fields!FooterFontColor2.Value, "dsFontAndStyle")</Color>
+                          </Style>
+                        </TextRun>
+                      </TextRuns>
+                      <Style>
+                        <TextAlign>Right</TextAlign>
+                      </Style>
+                    </Paragraph>
+                  </Paragraphs>
+                  <rd:DefaultName>Textbox16</rd:DefaultName>
+                  <Left>1.32222in</Left>
+                  <Height>0.58993in</Height>
+                  <Width>8.61875in</Width>
+                  <ZIndex>1</ZIndex>
+                  <Style>
+                    <Border>
+                      <Color>White</Color>
+                      <Style>None</Style>
+                    </Border>
+                    <VerticalAlign>Middle</VerticalAlign>
+                    <PaddingRight>5pt</PaddingRight>
+                  </Style>
+                </Textbox>
+                <Rectangle Name="Rectangle2">
+                  <ReportItems>
+                    <Image Name="Image">
+                      <Source>Embedded</Source>
+                      <Value>Logo1</Value>
+                      <Sizing>FitProportional</Sizing>
+                      <Top>0.09666in</Top>
+                      <Left>0.12031in</Left>
+                      <Height>0.40607in</Height>
+                      <Width>0.42361in</Width>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                      </Style>
+                    </Image>
+                  </ReportItems>
+                  <KeepTogether>true</KeepTogether>
+                  <Left>9.93576in</Left>
+                  <Height>0.59939in</Height>
+                  <Width>0.56424in</Width>
+                  <ZIndex>2</ZIndex>
+                  <Style>
+                    <Border>
+                      <Style>None</Style>
+                    </Border>
+                    <BackgroundColor>White</BackgroundColor>
+                  </Style>
+                </Rectangle>
+              </ReportItems>
+              <KeepTogether>true</KeepTogether>
+              <Top>0.24905in</Top>
+              <Left>0.265in</Left>
+              <Height>0.59939in</Height>
+              <Width>10.5in</Width>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <BackgroundColor>=First(Fields!FooterBGColor2.Value, "dsFontAndStyle")</BackgroundColor>
+              </Style>
+            </Rectangle>
+            <Rectangle Name="Rectangle1">
+              <ReportItems>
+                <Textbox Name="Textbox2">
+                  <CanGrow>true</CanGrow>
+                  <KeepTogether>true</KeepTogether>
+                  <Paragraphs>
+                    <Paragraph>
+                      <TextRuns>
+                        <TextRun>
+                          <Label>Date</Label>
+                          <Value>=Format(Globals!ExecutionTime,"M")+", "+Format(Globals!ExecutionTime,"yyy")</Value>
+                          <Style>
+                            <FontFamily>=First(Fields!FooterFontStyle1.Value, "dsFontAndStyle")</FontFamily>
+                            <FontWeight>Normal</FontWeight>
+                            <Color>=First(Fields!FooterFontColor1.Value, "dsFontAndStyle")</Color>
+                          </Style>
+                        </TextRun>
+                      </TextRuns>
+                      <Style>
+                        <TextAlign>Right</TextAlign>
+                      </Style>
+                    </Paragraph>
+                  </Paragraphs>
+                  <rd:DefaultName>Textbox2</rd:DefaultName>
+                  <Height>0.16719in</Height>
+                  <Width>1.5625in</Width>
+                  <Style>
+                    <Border>
+                      <Style>None</Style>
+                    </Border>
+                    <VerticalAlign>Top</VerticalAlign>
+                    <PaddingLeft>2pt</PaddingLeft>
+                    <PaddingRight>2pt</PaddingRight>
+                    <PaddingTop>2pt</PaddingTop>
+                    <PaddingBottom>2pt</PaddingBottom>
+                  </Style>
+                </Textbox>
+              </ReportItems>
+              <KeepTogether>true</KeepTogether>
+              <Top>0.03074in</Top>
+              <Left>8.59708in</Left>
+              <Height>0.18108in</Height>
+              <Width>1.66792in</Width>
+              <ZIndex>1</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+              </Style>
+            </Rectangle>
+          </ReportItems>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+          </Style>
+        </PageFooter>
+        <PageHeight>8.5in</PageHeight>
+        <PageWidth>11in</PageWidth>
+        <TopMargin>0.1in</TopMargin>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <ReportParameters>
+    <ReportParameter Name="ReportID">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>475c0fc3-8360-4616-a9ca-285754791144</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>ReportID</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ReportList">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>MRMIR,MRPL,MROR,MRMR,MROS,</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>ReportList</Prompt>
+    </ReportParameter>
+  </ReportParameters>
+  
+  <EmbeddedImages>
+    <EmbeddedImage Name="Report">
+      <MIMEType>image/jpeg</MIMEType>
+      <ImageData>/9j/4AAQSkZJRgABAQEBLAEsAAD/4RDQRXhpZgAATU0AKgAAAAgABQESAAMAAAABAAEAAAExAAIAAAAbAAAIVgEyAAIAAAAUAAAIcodpAAQAAAABAAAIhuocAAcAAAgMAAAASgAAAAAc6gAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEFkb2JlIFBob3Rvc2hvcCBDUyBXaW5kb3dzAAAyMDEwOjEwOjAyIDEyOjU3OjQ0AAAEoAEAAwAAAAH//wAAoAIABAAAAAEAAAH0oAMABAAAAAEAAAH+
+6hwABwAACAwAAAi8AAAAABzqAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/+EKjmh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8APD94cGFja2V0IGJlZ2luPSfvu78nIGlkPSdXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQnPz4NCjx4bXA6eG1wbWV0YSB4bWxuczp4bXA9ImFkb2JlOm5zOm1ldGEvIj48cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIv
+MjItcmRmLXN5bnRheC1ucyMiPjxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSJ1dWlkOmZhZjViZGQ1LWJhM2QtMTFkYS1hZDMxLWQzM2Q3NTE4MmYxYiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIj48eG1wOmNyZWF0b3J0b29sPkFkb2JlIFBob3Rvc2hvcCBDUyBXaW5kb3dzPC94bXA6Y3JlYXRvcnRvb2w+PC9yZGY6RGVzY3JpcHRpb24+PHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9InV1aWQ6ZmFmNWJkZDUtYmEzZC0xMWRhLWFkMzEtZDMzZDc1MTgyZjFiIiB4bWxuczp0aWZmPSJodHRwOi8vbnMuYWRvYmUuY29tL3RpZmYvMS4wLyI+PHRpZmY6c29mdHdhcmU+QWRvYmUgUGhvdG9zaG9wIENTIFdpbmRvd3M8L3RpZmY6c29mdHdhcmU+PHRpZmY6T3JpZW50YXRpb24+MTwvdGlmZjpPcmllbnRhdGlvbj48L3JkZjpEZXNjcmlwdGlvbj48L3JkZjpSREY+PC94bXA6eG1wbWV0YT4NCjw/eHBhY2tldCBlbmQ9J3cnPz4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgIP/bAEMAAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAgIBAQIBAQECAgICAgICAgIBAgICAgICAgICAv/bAEMBAQEBAQEBAQEBAQIBAQECAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAv/AABEIAEAAPwMBIgACEQEDEQH/xAAfAAABBQEBAQEBAQAAAAAAAAAAAQIDBAUGBwgJCgv/xAC1EAACAQMDAgQDBQUEBAAAAX0BAgMABBEFEiExQQYTUWEHInEUMoGRoQgjQrHBFVLR8CQzYnKCCQoWFxgZGiUmJygpKjQ1Njc4OTpDREVGR0hJSlNUVVZXWFlaY2RlZmdoaWpzdHV2d3h5eoOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4eLj5OXm5+jp6vHy8/T19vf4+fr/xAAfAQADAQEBAQEBAQEBAAAAAAAAAQIDBAUGBwgJCgv/xAC1EQACAQIEBAMEBwUEBAABAncAAQIDEQQFITEGEkFRB2FxEyIygQgUQpGhscEJIzNS8BVictEKFiQ04SXx
+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</ImageData>
+    </EmbeddedImage>
+    <EmbeddedImage Name="Logo">
+      <MIMEType>image/png</MIMEType>
+      <ImageData>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</ImageData>
+    </EmbeddedImage>
+    <EmbeddedImage Name="Logo1">
+      <MIMEType>image/jpeg</MIMEType>
+      <ImageData>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</ImageData>
+    </EmbeddedImage>
+  </EmbeddedImages>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportServerUrl>http://gwoodsql/ReportServer</rd:ReportServerUrl>
+  <rd:ReportID>5d4db9ab-e8c3-474a-8582-6d156161385f</rd:ReportID>
+</Report>

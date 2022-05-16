@@ -1,0 +1,2102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2010/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="dsConn">
+      <DataSourceReference>dsConn</DataSourceReference>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>23b1ed77-9263-4033-9b17-3790052349f9</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="dsMissingPayments">
+      <Query>
+        <DataSourceName>dsConn</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@ReportGuidID">
+            <Value>=Parameters!ReportID.Value</Value>
+            <rd:UserDefined>true</rd:UserDefined>
+          </QueryParameter>
+          <QueryParameter Name="@ShowReport">
+            <Value>=Parameters!RunReport.Value</Value>
+            <rd:UserDefined>true</rd:UserDefined>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>IF @ShowReport&lt;&gt;0
+          Begin
+          EXEC sp_NoPaymentMissingInvoice @ReportGuidID
+          End</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="policyid">
+          <DataField>policyid</DataField>
+          <rd:TypeName>System.Guid</rd:TypeName>
+        </Field>
+        <Field Name="ClientName">
+          <DataField>ClientName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Insured">
+          <DataField>Insured</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PayorName">
+          <DataField>PayorName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CarrierName">
+          <DataField>CarrierName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PayorTypeId">
+          <DataField>PayorTypeId</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="ProductName">
+          <DataField>ProductName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PolicyNumber">
+          <DataField>PolicyNumber</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="OriginalEffectiveDate">
+          <DataField>OriginalEffectiveDate</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TrackFromDate">
+          <DataField>TrackFromDate</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PolicyModeId">
+          <DataField>PolicyModeId</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="PolicyMode">
+          <DataField>PolicyMode</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="MonthlyPremium">
+          <DataField>MonthlyPremium</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="PolicyStatus">
+          <DataField>PolicyStatus</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PolicyTerminationDate">
+          <DataField>PolicyTerminationDate</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TypeOfRevenue">
+          <DataField>TypeOfRevenue</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PrimaryBroker">
+          <DataField>PrimaryBroker</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ExpectedPayment">
+          <DataField>expectedPayment</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="IsIncomingBasicSchedule">
+          <DataField>IsIncomingBasicSchedule</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="Company">
+          <DataField>Company</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="dsInvoiceFrom">
+      <Query>
+        <DataSourceName>dsConn</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@ReportIDs">
+            <Value>=Parameters!ReportID.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>
+          SELECT [InvoiceFrom] FROM [AuditReports]
+          WHERE ReportId =@ReportIDs
+        </CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="InvoiceFrom">
+          <DataField>InvoiceFrom</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="dsFontAndStyle">
+      <Query>
+        <DataSourceName>dsConn</DataSourceName>
+        <CommandText>
+          SELECT [ReportName]
+          ,[HeaderBorderColor]
+          ,[HeaderBGColor1]
+          ,[HeaderFontStyle1]
+          ,[HeaderFontColor1]
+          ,[HeaderFontSize1]
+          ,[HeaderBGColor2]
+          ,[HeaderFontStyle2]
+          ,[HeaderFontColor2]
+          ,[HeaderFontSize2]
+          ,[THBlankBGColor]
+          ,[THBorderColor]
+          ,[THBGColor]
+          ,[THFontStyle]
+          ,[THFontColor]
+          ,[THFontSize]
+          ,[TDBorderColor]
+          ,[TDBGColor]
+          ,[TDFontStyle]
+          ,[TDFontColor]
+          ,[TDFontSize]
+          ,[TFBorderColor]
+          ,[TFBGColor]
+          ,[TFFontStyle]
+          ,[TFFontColor]
+          ,[TFFontSize]
+          ,[FooterBGColor1]
+          ,[FooterFontStyle1]
+          ,[FooterFontColor1]
+          ,[FooterFontSize1]
+          ,[FooterBGColor2]
+          ,[FooterFontStyle2]
+          ,[FooterFontColor2]
+          ,[FooterFontSize2]
+          ,[FooterBGColor3]
+          ,[FooterFontStyle3]
+          ,[FooterFontColor3]
+          ,[FooterFontSize3]
+          FROM [ReportsFontAndStyle]
+          WHERE [ReportName]='ALL' and [IsDeleted]=1
+        </CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="ReportName">
+          <DataField>ReportName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="HeaderBorderColor">
+          <DataField>HeaderBorderColor</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="HeaderBGColor1">
+          <DataField>HeaderBGColor1</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="HeaderFontStyle1">
+          <DataField>HeaderFontStyle1</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="HeaderFontColor1">
+          <DataField>HeaderFontColor1</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="HeaderFontSize1">
+          <DataField>HeaderFontSize1</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="HeaderBGColor2">
+          <DataField>HeaderBGColor2</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="HeaderFontStyle2">
+          <DataField>HeaderFontStyle2</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="HeaderFontColor2">
+          <DataField>HeaderFontColor2</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="HeaderFontSize2">
+          <DataField>HeaderFontSize2</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="THBlankBGColor">
+          <DataField>THBlankBGColor</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="THBorderColor">
+          <DataField>THBorderColor</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="THBGColor">
+          <DataField>THBGColor</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="THFontStyle">
+          <DataField>THFontStyle</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="THFontColor">
+          <DataField>THFontColor</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="THFontSize">
+          <DataField>THFontSize</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TDBorderColor">
+          <DataField>TDBorderColor</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TDBGColor">
+          <DataField>TDBGColor</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TDFontStyle">
+          <DataField>TDFontStyle</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TDFontColor">
+          <DataField>TDFontColor</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TDFontSize">
+          <DataField>TDFontSize</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TFBorderColor">
+          <DataField>TFBorderColor</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TFBGColor">
+          <DataField>TFBGColor</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TFFontStyle">
+          <DataField>TFFontStyle</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TFFontColor">
+          <DataField>TFFontColor</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="TFFontSize">
+          <DataField>TFFontSize</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FooterBGColor1">
+          <DataField>FooterBGColor1</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FooterFontStyle1">
+          <DataField>FooterFontStyle1</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FooterFontColor1">
+          <DataField>FooterFontColor1</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FooterFontSize1">
+          <DataField>FooterFontSize1</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FooterBGColor2">
+          <DataField>FooterBGColor2</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FooterFontStyle2">
+          <DataField>FooterFontStyle2</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FooterFontColor2">
+          <DataField>FooterFontColor2</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FooterFontSize2">
+          <DataField>FooterFontSize2</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FooterBGColor3">
+          <DataField>FooterBGColor3</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FooterFontStyle3">
+          <DataField>FooterFontStyle3</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FooterFontColor3">
+          <DataField>FooterFontColor3</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FooterFontSize3">
+          <DataField>FooterFontSize3</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <ReportItems>
+          <Tablix Name="Tablix2">
+            <TablixBody>
+              <TablixColumns>
+                <TablixColumn>
+                  <Width>1.09527in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>0.70417in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>0.65209in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>0.79792in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>0.62443in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>0.60359in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>0.90625in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>0.96875in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>0.70834in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>0.60417in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>0.81251in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>0.80208in</Width>
+                </TablixColumn>
+              </TablixColumns>
+              <TablixRows>
+                <TablixRow>
+                  <Height>0.92702in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox41">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Policy list without Payments </Value>
+                                  <Style>
+                                    <FontStyle>Normal</FontStyle>
+                                    <FontFamily>=First(Fields!HeaderFontStyle1.Value, "dsFontAndStyle")</FontFamily>
+                                    <FontSize>=First(Fields!HeaderFontSize1.Value, "dsFontAndStyle")</FontSize>
+                                    <FontWeight>Normal</FontWeight>
+                                    <TextDecoration>None</TextDecoration>
+                                    <Color>=First(Fields!HeaderFontColor1.Value, "dsFontAndStyle")</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox41</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>=First(Fields!HeaderBorderColor.Value, "dsFontAndStyle")</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Style>None</Style>
+                              <Width>2pt</Width>
+                            </BottomBorder>
+                            <BackgroundColor>=First(Fields!HeaderBGColor1.Value, "dsFontAndStyle")</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>10pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                        <ColSpan>6</ColSpan>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox6">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Company.Value</Value>
+                                  <Style>
+                                    <FontFamily>=First(Fields!HeaderFontSize1.Value, "dsFontAndStyle")</FontFamily>
+                                    <FontSize>=First(Fields!HeaderFontSize1.Value, "dsFontAndStyle")</FontSize>
+                                    <Color>=First(Fields!HeaderFontColor1.Value, "dsFontAndStyle")</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox6</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>=First(Fields!HeaderBorderColor.Value, "dsFontAndStyle")</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Style>None</Style>
+                              <Width>2pt</Width>
+                            </BottomBorder>
+                            <BackgroundColor>=First(Fields!HeaderBGColor1.Value, "dsFontAndStyle")</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>10pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                        <ColSpan>5</ColSpan>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox137">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <Color>=First(Fields!HeaderFontColor1.Value, "dsFontAndStyle")</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox137</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>=First(Fields!HeaderBorderColor.Value, "dsFontAndStyle")</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BottomBorder>
+                              <Style>None</Style>
+                              <Width>2pt</Width>
+                            </BottomBorder>
+                            <BackgroundColor>=First(Fields!HeaderBGColor1.Value, "dsFontAndStyle")</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.24702in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox3">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Client</Value>
+                                  <Style>
+                                    <FontFamily>=First(Fields!THFontStyle.Value, "dsFontAndStyle")</FontFamily>
+                                    <FontSize>=First(Fields!THFontSize.Value, "dsFontAndStyle")</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>=First(Fields!THFontColor.Value, "dsFontAndStyle")</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox2</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>=First(Fields!THBGColor.Value, "dsFontAndStyle")</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>5pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox7">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Payor</Value>
+                                  <Style>
+                                    <FontFamily>=First(Fields!THFontStyle.Value, "dsFontAndStyle")</FontFamily>
+                                    <FontSize>=First(Fields!THFontSize.Value, "dsFontAndStyle")</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>=First(Fields!THFontColor.Value, "dsFontAndStyle")</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox6</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>=First(Fields!THBGColor.Value, "dsFontAndStyle")</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>5pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox15">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Product</Value>
+                                  <Style>
+                                    <FontFamily>=First(Fields!THFontStyle.Value, "dsFontAndStyle")</FontFamily>
+                                    <FontSize>=First(Fields!THFontSize.Value, "dsFontAndStyle")</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>=First(Fields!THFontColor.Value, "dsFontAndStyle")</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox14</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>=First(Fields!THBGColor.Value, "dsFontAndStyle")</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>5pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox19">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Effective</Value>
+                                  <Style>
+                                    <FontFamily>=First(Fields!THFontStyle.Value, "dsFontAndStyle")</FontFamily>
+                                    <FontSize>=First(Fields!THFontSize.Value, "dsFontAndStyle")</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>=First(Fields!THFontColor.Value, "dsFontAndStyle")</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox18</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>=First(Fields!THBGColor.Value, "dsFontAndStyle")</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>5pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox23">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Status</Value>
+                                  <Style>
+                                    <FontFamily>=First(Fields!THFontStyle.Value, "dsFontAndStyle")</FontFamily>
+                                    <FontSize>=First(Fields!THFontSize.Value, "dsFontAndStyle")</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>=First(Fields!THFontColor.Value, "dsFontAndStyle")</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox22</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>=First(Fields!THBGColor.Value, "dsFontAndStyle")</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>5pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox31">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Mode</Value>
+                                  <Style>
+                                    <FontFamily>=First(Fields!THFontStyle.Value, "dsFontAndStyle")</FontFamily>
+                                    <FontSize>=First(Fields!THFontSize.Value, "dsFontAndStyle")</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>=First(Fields!THFontColor.Value, "dsFontAndStyle")</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox30</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>=First(Fields!THBGColor.Value, "dsFontAndStyle")</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>5pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox58">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Division</Value>
+                                  <Style>
+                                    <FontFamily>=First(Fields!THFontStyle.Value, "dsFontAndStyle")</FontFamily>
+                                    <FontSize>=First(Fields!THFontSize.Value, "dsFontAndStyle")</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>=First(Fields!THFontColor.Value, "dsFontAndStyle")</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox33</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>=First(Fields!THBGColor.Value, "dsFontAndStyle")</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>5pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox37">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Carrier</Value>
+                                  <Style>
+                                    <FontFamily>=First(Fields!THFontStyle.Value, "dsFontAndStyle")</FontFamily>
+                                    <FontSize>=First(Fields!THFontSize.Value, "dsFontAndStyle")</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>=First(Fields!THFontColor.Value, "dsFontAndStyle")</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox34</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>=First(Fields!THBGColor.Value, "dsFontAndStyle")</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>5pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox60">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Policy #</Value>
+                                  <Style>
+                                    <FontFamily>=First(Fields!THFontStyle.Value, "dsFontAndStyle")</FontFamily>
+                                    <FontSize>=First(Fields!THFontSize.Value, "dsFontAndStyle")</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>=First(Fields!THFontColor.Value, "dsFontAndStyle")</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox35</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>=First(Fields!THBGColor.Value, "dsFontAndStyle")</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>5pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox63">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Track (Smart)</Value>
+                                  <Style>
+                                    <FontFamily>=First(Fields!THFontStyle.Value, "dsFontAndStyle")</FontFamily>
+                                    <FontSize>=First(Fields!THFontSize.Value, "dsFontAndStyle")</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>=First(Fields!THFontColor.Value, "dsFontAndStyle")</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox36</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>=First(Fields!THBGColor.Value, "dsFontAndStyle")</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>5pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox95">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Term Date</Value>
+                                  <Style>
+                                    <FontFamily>=First(Fields!THFontStyle.Value, "dsFontAndStyle")</FontFamily>
+                                    <FontSize>=First(Fields!THFontSize.Value, "dsFontAndStyle")</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>=First(Fields!THFontColor.Value, "dsFontAndStyle")</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox38</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>=First(Fields!THBGColor.Value, "dsFontAndStyle")</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>5pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox100">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Primary</Value>
+                                  <Style>
+                                    <FontFamily>=First(Fields!THFontStyle.Value, "dsFontAndStyle")</FontFamily>
+                                    <FontSize>=First(Fields!THFontSize.Value, "dsFontAndStyle")</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>=First(Fields!THFontColor.Value, "dsFontAndStyle")</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox39</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>=First(Fields!THBGColor.Value, "dsFontAndStyle")</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>5pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.24702in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="ClientName">
+                          <CanGrow>true</CanGrow>
+                          <CanShrink>true</CanShrink>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!ClientName.Value</Value>
+                                  <Style>
+                                    <FontFamily>=First(Fields!TDFontStyle.Value, "dsFontAndStyle")</FontFamily>
+                                    <FontSize>=First(Fields!TDFontSize.Value, "dsFontAndStyle")</FontSize>
+                                    <Color>=First(Fields!TDFontColor.Value, "dsFontAndStyle")</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>ClientName</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>=First(Fields!TDBGColor.Value, "dsFontAndStyle")</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>5pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="PayorName">
+                          <CanGrow>true</CanGrow>
+                          <CanShrink>true</CanShrink>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!PayorName.Value</Value>
+                                  <Style>
+                                    <FontFamily>=First(Fields!TDFontStyle.Value, "dsFontAndStyle")</FontFamily>
+                                    <FontSize>=First(Fields!TDFontSize.Value, "dsFontAndStyle")</FontSize>
+                                    <Color>=First(Fields!TDFontColor.Value, "dsFontAndStyle")</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>PayorName</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                              <Width>0.5pt</Width>
+                            </Border>
+                            <BackgroundColor>=First(Fields!TDBGColor.Value, "dsFontAndStyle")</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>5pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="ProductName">
+                          <CanGrow>true</CanGrow>
+                          <CanShrink>true</CanShrink>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!ProductName.Value</Value>
+                                  <Style>
+                                    <FontFamily>=First(Fields!TDFontStyle.Value, "dsFontAndStyle")</FontFamily>
+                                    <FontSize>=First(Fields!TDFontSize.Value, "dsFontAndStyle")</FontSize>
+                                    <Color>=First(Fields!TDFontColor.Value, "dsFontAndStyle")</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>ProductName</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                              <Width>0.5pt</Width>
+                            </Border>
+                            <BackgroundColor>=First(Fields!TDBGColor.Value, "dsFontAndStyle")</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>5pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="OriginalEffectiveDate">
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!OriginalEffectiveDate.Value</Value>
+                                  <Style>
+                                    <FontFamily>=First(Fields!TDFontStyle.Value, "dsFontAndStyle")</FontFamily>
+                                    <FontSize>=First(Fields!TDFontSize.Value, "dsFontAndStyle")</FontSize>
+                                    <Format>MM/dd/yy</Format>
+                                    <Color>=First(Fields!TDFontColor.Value, "dsFontAndStyle")</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>OriginalEffectiveDate</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                              <Width>0.5pt</Width>
+                            </Border>
+                            <BackgroundColor>=First(Fields!TDBGColor.Value, "dsFontAndStyle")</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>5pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="PolicyStatus">
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!PolicyStatus.Value</Value>
+                                  <Style>
+                                    <FontFamily>=First(Fields!TDFontStyle.Value, "dsFontAndStyle")</FontFamily>
+                                    <FontSize>=First(Fields!TDFontSize.Value, "dsFontAndStyle")</FontSize>
+                                    <Color>=First(Fields!TDFontColor.Value, "dsFontAndStyle")</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>PolicyStatus</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>=First(Fields!TDBGColor.Value, "dsFontAndStyle")</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>5pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="PolicyMode">
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!PolicyMode.Value</Value>
+                                  <Style>
+                                    <FontFamily>=First(Fields!TDFontStyle.Value, "dsFontAndStyle")</FontFamily>
+                                    <FontSize>=First(Fields!TDFontSize.Value, "dsFontAndStyle")</FontSize>
+                                    <Color>=First(Fields!TDFontColor.Value, "dsFontAndStyle")</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>PolicyMode</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>=First(Fields!TDBGColor.Value, "dsFontAndStyle")</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>5pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Insured">
+                          <CanGrow>true</CanGrow>
+                          <CanShrink>true</CanShrink>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=IIF((Previous(Fields!ClientName.Value) &amp; Previous(Fields!Insured.Value))=((Fields!ClientName.Value) &amp; (Fields!Insured.Value)),"",Fields!Insured.Value)</Value>
+                                  <Style>
+                                    <FontFamily>=First(Fields!TDFontStyle.Value, "dsFontAndStyle")</FontFamily>
+                                    <FontSize>=First(Fields!TDFontSize.Value, "dsFontAndStyle")</FontSize>
+                                    <Color>=First(Fields!TDFontColor.Value, "dsFontAndStyle")</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Insured</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>=First(Fields!TDBGColor.Value, "dsFontAndStyle")</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>5pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="CarrierName">
+                          <CanGrow>true</CanGrow>
+                          <CanShrink>true</CanShrink>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!CarrierName.Value</Value>
+                                  <Style>
+                                    <FontFamily>=First(Fields!TDFontStyle.Value, "dsFontAndStyle")</FontFamily>
+                                    <FontSize>=First(Fields!TDFontSize.Value, "dsFontAndStyle")</FontSize>
+                                    <Color>=First(Fields!TDFontColor.Value, "dsFontAndStyle")</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>CarrierName</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                              <Width>0.5pt</Width>
+                            </Border>
+                            <BackgroundColor>=First(Fields!TDBGColor.Value, "dsFontAndStyle")</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>5pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="PolicyNumber">
+                          <CanGrow>true</CanGrow>
+                          <CanShrink>true</CanShrink>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!PolicyNumber.Value</Value>
+                                  <Style>
+                                    <FontFamily>=First(Fields!TDFontStyle.Value, "dsFontAndStyle")</FontFamily>
+                                    <FontSize>=First(Fields!TDFontSize.Value, "dsFontAndStyle")</FontSize>
+                                    <Color>=First(Fields!TDFontColor.Value, "dsFontAndStyle")</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>PolicyNumber</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>=First(Fields!TDBGColor.Value, "dsFontAndStyle")</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>5pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="TrackFromDate">
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!TrackFromDate.Value</Value>
+                                  <Style>
+                                    <FontFamily>=First(Fields!TDFontStyle.Value, "dsFontAndStyle")</FontFamily>
+                                    <FontSize>=First(Fields!TDFontSize.Value, "dsFontAndStyle")</FontSize>
+                                    <Format>MM/dd/yy</Format>
+                                    <Color>=First(Fields!TDFontColor.Value, "dsFontAndStyle")</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>TrackFromDate</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>=First(Fields!TDBGColor.Value, "dsFontAndStyle")</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>5pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="PolicyTerminationDate">
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!PolicyTerminationDate.Value</Value>
+                                  <Style>
+                                    <FontFamily>=First(Fields!TDFontStyle.Value, "dsFontAndStyle")</FontFamily>
+                                    <FontSize>=First(Fields!TDFontSize.Value, "dsFontAndStyle")</FontSize>
+                                    <Format>MM/dd/yy</Format>
+                                    <Color>=First(Fields!TDFontColor.Value, "dsFontAndStyle")</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>PolicyTerminationDate</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>=First(Fields!TDBGColor.Value, "dsFontAndStyle")</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>5pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="PrimaryBroker">
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!PrimaryBroker.Value</Value>
+                                  <Style>
+                                    <FontFamily>=First(Fields!TDFontStyle.Value, "dsFontAndStyle")</FontFamily>
+                                    <FontSize>=First(Fields!TDFontSize.Value, "dsFontAndStyle")</FontSize>
+                                    <Format>d</Format>
+                                    <Color>=First(Fields!TDFontColor.Value, "dsFontAndStyle")</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>PrimaryBroker</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>=First(Fields!TDBGColor.Value, "dsFontAndStyle")</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>5pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.25in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox24">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>=First(Fields!TDFontStyle.Value, "dsFontAndStyle")</FontFamily>
+                                    <FontSize>=First(Fields!TDFontSize.Value, "dsFontAndStyle")</FontSize>
+                                    <Color>=First(Fields!TDFontColor.Value, "dsFontAndStyle")</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox24</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>=First(Fields!TDBGColor.Value, "dsFontAndStyle")</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>5pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox27">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>=First(Fields!TDFontStyle.Value, "dsFontAndStyle")</FontFamily>
+                                    <FontSize>=First(Fields!TDFontSize.Value, "dsFontAndStyle")</FontSize>
+                                    <Color>=First(Fields!TDFontColor.Value, "dsFontAndStyle")</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox27</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                              <Width>0.5pt</Width>
+                            </Border>
+                            <BackgroundColor>=First(Fields!TDBGColor.Value, "dsFontAndStyle")</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>5pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox28">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>=First(Fields!TDFontStyle.Value, "dsFontAndStyle")</FontFamily>
+                                    <FontSize>=First(Fields!TDFontSize.Value, "dsFontAndStyle")</FontSize>
+                                    <Color>=First(Fields!TDFontColor.Value, "dsFontAndStyle")</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox28</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                              <Width>0.5pt</Width>
+                            </Border>
+                            <BackgroundColor>=First(Fields!TDBGColor.Value, "dsFontAndStyle")</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>5pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox29">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>=First(Fields!TDFontStyle.Value, "dsFontAndStyle")</FontFamily>
+                                    <FontSize>=First(Fields!TDFontSize.Value, "dsFontAndStyle")</FontSize>
+                                    <Color>=First(Fields!TDFontColor.Value, "dsFontAndStyle")</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox29</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                              <Width>0.5pt</Width>
+                            </Border>
+                            <BackgroundColor>=First(Fields!TDBGColor.Value, "dsFontAndStyle")</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>5pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox30">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>=First(Fields!TDFontStyle.Value, "dsFontAndStyle")</FontFamily>
+                                    <FontSize>=First(Fields!TDFontSize.Value, "dsFontAndStyle")</FontSize>
+                                    <Color>=First(Fields!TDFontColor.Value, "dsFontAndStyle")</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox30</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>=First(Fields!TDBGColor.Value, "dsFontAndStyle")</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>5pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox32">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>=First(Fields!TDFontStyle.Value, "dsFontAndStyle")</FontFamily>
+                                    <FontSize>=First(Fields!TDFontSize.Value, "dsFontAndStyle")</FontSize>
+                                    <Color>=First(Fields!TDFontColor.Value, "dsFontAndStyle")</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox32</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>=First(Fields!TDBGColor.Value, "dsFontAndStyle")</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>5pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox33">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>=First(Fields!TDFontStyle.Value, "dsFontAndStyle")</FontFamily>
+                                    <FontSize>=First(Fields!TDFontSize.Value, "dsFontAndStyle")</FontSize>
+                                    <Color>=First(Fields!TDFontColor.Value, "dsFontAndStyle")</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox33</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>=First(Fields!TDBGColor.Value, "dsFontAndStyle")</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>5pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox34">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>=First(Fields!TDFontStyle.Value, "dsFontAndStyle")</FontFamily>
+                                    <FontSize>=First(Fields!TDFontSize.Value, "dsFontAndStyle")</FontSize>
+                                    <Color>=First(Fields!TDFontColor.Value, "dsFontAndStyle")</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox34</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                              <Width>0.5pt</Width>
+                            </Border>
+                            <BackgroundColor>=First(Fields!TDBGColor.Value, "dsFontAndStyle")</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>5pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox35">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>=First(Fields!TDFontStyle.Value, "dsFontAndStyle")</FontFamily>
+                                    <FontSize>=First(Fields!TDFontSize.Value, "dsFontAndStyle")</FontSize>
+                                    <Color>=First(Fields!TDFontColor.Value, "dsFontAndStyle")</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox35</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>=First(Fields!TDBGColor.Value, "dsFontAndStyle")</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>5pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox36">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>=First(Fields!TDFontStyle.Value, "dsFontAndStyle")</FontFamily>
+                                    <FontSize>=First(Fields!TDFontSize.Value, "dsFontAndStyle")</FontSize>
+                                    <Color>=First(Fields!TDFontColor.Value, "dsFontAndStyle")</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox36</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>=First(Fields!TDBGColor.Value, "dsFontAndStyle")</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>5pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox38">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>=First(Fields!TDFontStyle.Value, "dsFontAndStyle")</FontFamily>
+                                    <FontSize>=First(Fields!TDFontSize.Value, "dsFontAndStyle")</FontSize>
+                                    <Color>=First(Fields!TDFontColor.Value, "dsFontAndStyle")</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox38</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>=First(Fields!TDBGColor.Value, "dsFontAndStyle")</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>5pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox39">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>=First(Fields!TDFontStyle.Value, "dsFontAndStyle")</FontFamily>
+                                    <FontSize>=First(Fields!TDFontSize.Value, "dsFontAndStyle")</FontSize>
+                                    <Color>=First(Fields!TDFontColor.Value, "dsFontAndStyle")</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox39</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>=First(Fields!TDBGColor.Value, "dsFontAndStyle")</BackgroundColor>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>5pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+              </TablixRows>
+            </TablixBody>
+            <TablixColumnHierarchy>
+              <TablixMembers>
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+              </TablixMembers>
+            </TablixColumnHierarchy>
+            <TablixRowHierarchy>
+			<TablixMembers>
+                <TablixMember>
+				 <Group Name="Group1">
+                    <GroupExpressions>
+                      <GroupExpression>=Fields!Company.Value</GroupExpression>
+					  <GroupExpression>=Ceiling(RowNumber(Nothing)/65000)</GroupExpression>
+                    </GroupExpressions>
+                    <PageBreak>
+                      <BreakLocation>End</BreakLocation>
+                    </PageBreak>
+                  </Group>
+              <TablixMembers>
+                <TablixMember>
+                  <FixedData>true</FixedData>
+                  <KeepWithGroup>After</KeepWithGroup>
+                  <RepeatOnNewPage>true</RepeatOnNewPage>
+                  <KeepTogether>true</KeepTogether>
+                </TablixMember>
+                <TablixMember>
+                  <FixedData>true</FixedData>
+                  <KeepWithGroup>After</KeepWithGroup>
+                  <RepeatOnNewPage>true</RepeatOnNewPage>
+                  <KeepTogether>true</KeepTogether>
+                </TablixMember>
+                <TablixMember>
+                  <Group Name="Details" />
+                  <TablixMembers>
+                    <TablixMember />
+                  </TablixMembers>
+                </TablixMember>
+                <TablixMember>
+                  <KeepWithGroup>Before</KeepWithGroup>
+                </TablixMember>
+              </TablixMembers>
+			  </TablixMember>
+              </TablixMembers>
+            </TablixRowHierarchy>
+            <RepeatColumnHeaders>true</RepeatColumnHeaders>
+            <DataSetName>dsMissingPayments</DataSetName>
+            <PageBreak>
+              <BreakLocation>End</BreakLocation>
+            </PageBreak>
+            <Left>0.02083in</Left>
+            <Height>1.67106in</Height>
+            <Width>9.27957in</Width>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Tablix>
+        </ReportItems>
+        <Height>1.68891in</Height>
+        <Style />
+      </Body>
+      <Width>9.3004in</Width>
+      <Page>
+        <PageHeight>8.5in</PageHeight>
+        <PageWidth>10.5in</PageWidth>
+        <LeftMargin>0.15in</LeftMargin>
+        <TopMargin>0.25in</TopMargin>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <ReportParameters>
+    <ReportParameter Name="ReportID">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>bed8f5a4-fab1-4834-9eff-a20361d29256</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>ReportID</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="RunReport">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>1</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>RunReport</Prompt>
+    </ReportParameter>
+  </ReportParameters>
+  
+  <Code>
+    Public Shared Function GetMonth(ByVal ID As Integer, ByVal dInvoice As Date) As String
+    If dInvoice = Date.MinValue Then
+    dInvoice = Date.Now.AddYears(-1)
+
+    End If
+    dInvoice = dInvoice.AddMonths(ID)
+    Dim strString As String = dInvoice.ToString("Y")
+    Return Left(strString, 3) &amp; "-" &amp; Right(strString, 2)
+    End Function
+
+
+
+
+    Public Shared Function isPaymentExpected(ByVal ID As Integer, ByVal policyModes As Integer, ByVal invoiceDate As Date, ByVal EffectiveDate As Date) As Boolean
+
+    Dim returnvalue As Boolean
+    returnvalue = False
+    Dim monthfromEffectivedate As Integer
+
+    monthfromEffectivedate = dateDiff(DateInterval.Month, effectiveDate, invoiceDate) + ID
+
+    If policyModes = 0 Then
+    returnvalue = True
+    ElseIf policyModes = 1 Then
+    If monthfromEffectivedate Mod 3 = 1 Then
+    returnvalue = True
+    End If
+    ElseIf policyModes = 2 Then
+
+    If monthfromEffectivedate Mod 6 = 1 Then
+    returnvalue = True
+    End If
+    ElseIf policyModes = 3 Then
+    If monthfromEffectivedate Mod 12 = 1 Then
+    returnvalue = True
+    End If
+    End If
+    Return returnvalue
+
+    End Function
+
+    Public Shared Function BeforeTrackOrAfterTermDate(ID as integer,dInvoice as date,trackDate as date,termDate as date) as boolean
+    Dim invDate as date =dInvoice.AddMonths(ID - 1)
+    Dim retBool as boolean =false
+    if (trackDate &lt;&gt; nothing AND invDate &lt; trackDate) then
+    retBool = true
+    end if
+    if (termDate &lt;&gt; nothing AND invDate &gt;= termDate) then
+    retBool = true
+    end if
+    return retBool
+    End Function
+
+    Public Shared Function GetDisplayText(ByVal ID As Integer, ByVal originalEffectiveDate As Date, ByVal TrackFromDate As Date, ByVal policyModes As Integer, ByVal  PolicyTerminationDate As Date, ByVal IssueResultId As Integer, ByVal IssueCategoryId As Integer, ByVal InvoiceFrom As Date, ByVal InvoiceTo As Date, ByVal  CommissionPayment As Decimal) As String
+
+    Dim paymentExpected As Boolean
+    paymentExpected = isPaymentExpected(ID, policyModes, InvoiceFrom, originalEffectiveDate)
+    Dim retBool As Boolean = BeforeTrackOrAfterTermDate(ID, InvoiceFrom, TrackFromDate, PolicyTerminationDate)
+
+    If retBool = True Then
+    Return ""
+    Else
+
+    If (CommissionPayment = 0 Or CommissionPayment = Nothing) And paymentExpected = True And IssueResultId &lt;&gt; 2 Then
+    Return "Missing"
+    ElseIf IssueResultId = 2 And (CommissionPayment = 0 Or CommissionPayment = Nothing) Then
+    Return "Resolved"
+    ElseIf (CommissionPayment &lt;&gt; 0 Or CommissionPayment &lt;&gt; Nothing) Then
+    Return "$" + CStr(CommissionPayment)
+    Else
+    Return ""
+    End If
+    End If
+    End Function
+
+    Public Shared Function GetColorCode(ByVal ID As Integer, ByVal InvoiceDate As Date, ByVal OriginalEffectiveDate As Date, ByVal TrackFromDate As Date, ByVal  PolicyTerminationDate As Date, ByVal CommissionPayment As Decimal, ByVal PolicyModes As Integer, ByVal IssueCategory As Integer, ByVal IssueResult As Integer) As  String
+
+    Dim retString As String = ""
+    Dim retColor As String = ""
+    Dim paymentExpected As Boolean
+
+    Dim retBool As Boolean = BeforeTrackOrAfterTermDate(ID, InvoiceDate, TrackFromDate, PolicyTerminationDate)
+    paymentExpected = isPaymentExpected(ID, PolicyModes, InvoiceDate, OriginalEffectiveDate)
+
+    If retBool = True Then
+    retColor = "DimGray"
+    Else
+    If (CommissionPayment &lt;= 0 Or CommissionPayment = Nothing) And paymentExpected = True   And IssueResult &lt;&gt; 2 Then
+    retColor = "#ff5050"
+    ElseIf paymentExpected = False Then
+    retColor = "Gray"
+    Else
+    retColor = "#a9d08e"
+    End If
+    End If
+    Return retColor
+    End Function
+  </Code>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportServerUrl>http://cdeptsql/ReportServer</rd:ReportServerUrl>
+  <rd:ReportID>bf6b407d-c063-4068-96e0-ec6d61602885</rd:ReportID>
+</Report>
